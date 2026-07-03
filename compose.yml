@@ -1,63 +1,61 @@
----
+version: '3.8'
+
 services:
- db:
-  image: anilpappala/library:database_image
-  deploy: 
-   replicas: 2
-  ports:
-   - "3306:3306"
-  networks:
-   - mynetwork
+  db:
+    image: anilpappala/library:db_image
+    deploy: 
+      replicas: 2
+    ports:
+      - "3306:3306"
+    networks:
+      - mynetwork
 
-auth_service:
- image: anilpappala/library:auth_image
- deploy:
-  replicas: 2
- ports:
-  - "5001:5001"
- networks:
-   - mynetwork
- depends_on:
-   - db
-   
+  auth_service:
+    image: anilpappala/library:auth_image
+    deploy:
+      replicas: 2
+    ports:
+      - "5001:5001"
+    networks:
+      - mynetwork
+    depends_on:
+      - db
 
-book_service:
- image: anilpappala/library:book_image
- deploy:
-  replicas: 2
- ports:
-  - "5002:5002"
- networks:
-   - mynetwork
- depends_on:
-   - db
+  book_service:
+    image: anilpappala/library:book_image
+    deploy:
+      replicas: 2
+    ports:
+      - "5002:5002"
+    networks:
+      - mynetwork
+    depends_on:
+      - db
 
-borrow_service:
- image: anilpappala/library:borrow_image
- deploy:
-  replicas: 2
- ports:
-   - "5003:5003"
- networks:
-   - mynetwork
- depends_on:
-   - db
+  borrow_service:
+    image: anilpappala/library:borrow_image
+    deploy:
+      replicas: 2
+    ports:
+      - "5003:5003"
+    networks:
+      - mynetwork
+    depends_on:
+      - db
 
-frontend:
- image: anilpappala/library:frontend_image
- deploy:
-  replicas: 2
- ports:
-  - "5000:5000"
- networks:
-   - mynetwork
- depends_on:
-  - book
-  - auth
-  - borrow
-
+  frontend:
+    image: anilpappala/library:frontend_image
+    deploy:
+      replicas: 2
+    ports:
+      - "5000:5000"
+    networks:
+      - mynetwork
+    depends_on:
+      - book_service
+      - auth_service
+      - borrow_service
 
 networks:
   mynetwork:
-   driver: overlay
-  
+    driver: overlay
