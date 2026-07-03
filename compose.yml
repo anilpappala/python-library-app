@@ -9,7 +9,7 @@ services:
   networks:
    - mynetwork
 
-auth:
+auth_service:
  image: anilpappala/library:auth_image
  deploy:
   replicas: 2
@@ -21,7 +21,7 @@ auth:
    - db
    
 
-book:
+book_service:
  image: anilpappala/library:book_image
  deploy:
   replicas: 2
@@ -32,7 +32,7 @@ book:
  depends_on:
    - db
 
-borrow:
+borrow_service:
  image: anilpappala/library:borrow_image
  deploy:
   replicas: 2
